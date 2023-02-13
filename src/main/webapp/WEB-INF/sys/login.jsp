@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -6,18 +5,21 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/media/layui/css/layui.css">
 
     <style type="text/css">
-        .form-out{
+        .form-out {
             margin-top: 150px;
         }
-        .form-center{
-            margin-left:380px;
+
+        .form-center {
+            margin-left: 380px;
         }
-        .title-h2{
+
+        .title-h2 {
             text-align: center;
-            padding:30px;
+            padding: 30px;
             color: #0C0C0C;
         }
-        .form-message{
+
+        .form-message {
             text-indent: 110px;
             color: #eb7350;
         }
@@ -25,8 +27,8 @@
 </head>
 <body class="layui-bg-gray">
 <div class="layui-container">
-    <div class="layui-row form-out" >
-        <div class="layui-col-md4 form-center" >
+    <div class="layui-row form-out">
+        <div class="layui-col-md4 form-center">
             <form class="layui-form" action="<%=request.getContextPath()%>/dologin.html" method="post">
                 <div class="layui-form-item">
                     <h2 class="title-h2">考试管理系统后台登录</h2>

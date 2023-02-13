@@ -7,12 +7,14 @@ import java.util.List;
 
 public interface PremissionDAO {
     void deleteRoleMenuByRoleId(Integer roleId);
-    void addRoleMenu(@Param("roleId") Integer roleId,@Param("menuId") Integer menuId);
+
+    void addRoleMenu(@Param("roleId") Integer roleId, @Param("menuId") Integer menuId);
 
     List<Integer> getMenuByRoleId(Integer roleId);
 
     void deleteUserRoleByUserId(Integer userId);
-    void addUserRole(@Param("userId") Integer userId,@Param("roleId") Integer roleId);
+
+    void addUserRole(@Param("userId") Integer userId, @Param("roleId") Integer roleId);
 
     List<Integer> getRoleByUserId(Integer userId);
 

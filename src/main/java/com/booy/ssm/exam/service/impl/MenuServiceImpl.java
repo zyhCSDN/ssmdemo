@@ -25,42 +25,42 @@ public class MenuServiceImpl implements MenuService {
     public List<Menu> getMenuTree(Boolean needButton) {
         //所有菜单对象
         List<Menu> menus = menuDAO.getAllMenu();
-        return makeMenuTreeV(false,null,menus);
+        return makeMenuTreeV(false, null, menus);
     }
 
     /**
      * 递归构建菜单树
-     * @param needButton  @param type true:查询到菜单；false:查询到按钮
-     * @param pId 第一次进来，父id为 null
+     *
+     * @param needButton @param type true:查询到菜单；false:查询到按钮
+     * @param pId        第一次进来，父id为 null
      * @param menus
      * @return
      */
-    private List<Menu> makeMenuTreeV(boolean needButton,String pId, List<Menu> menus) {
+    private List<Menu> makeMenuTreeV(boolean needButton, String pId, List<Menu> menus) {
         //一级菜单
-        List<Menu> treeList =new ArrayList<>();
+        List<Menu> treeList = new ArrayList<>();
         //遍历所有菜单对象，没有父节点存储到一级菜单列表，并且将所有菜单对象存储到map中
         for (Menu menu : menus) {
-            if (StringUtils.equals(pId, menu.getParentId()==null?null:menu.getParentId().toString())){
-                menu.setChildren(makeMenuTreeV(false,menu.getId().toString(),menus));
-                treeList .add(menu);
+            if (StringUtils.equals(pId, menu.getParentId() == null ? null : menu.getParentId().toString())) {
+                menu.setChildren(makeMenuTreeV(false, menu.getId().toString(), menus));
+                treeList.add(menu);
             }
         }
-        return treeList ;
+        return treeList;
 
     }
 
     //用户角色权限的菜单树对象
-    @Override
     public List<Menu> getUserMenuList(Integer userId) {
-        List<Menu> menuList = makeMenuTreeV(false,null, premissionDAO.getUserMenuList(userId));
+        List<Menu> menuList = makeMenuTreeV(false, null, premissionDAO.getUserMenuList(userId));
 
         return menuList;
     }
 
     //菜单树封装方法
-    public List<Menu> makeMenuTree(Boolean needButton,List<Menu> menus){
+    public List<Menu> makeMenuTree(Boolean needButton, List<Menu> menus) {
         //一级菜单
-        List<Menu> fistMenus=new ArrayList<>();
+        List<Menu> fistMenus = new ArrayList<>();
         //所有菜单键值对存储
         HashMap<Integer, Menu> menuMap = new HashMap<>();
         //遍历所有菜单对象，没有父节点存储到一级菜单列表，并且将所有菜单对象存储到map中
@@ -71,10 +71,10 @@ public class MenuServiceImpl implements MenuService {
             menuMap.put(menu.getId(), menu);
         }
         //填充拼接菜单树，遍历所有菜单对象，有父节点存储到属性子节点列表
-        for (Menu menu : menus){
+        for (Menu menu : menus) {
             //不是一级菜单，并且map中有父节点,把当前菜单对象设置给父节点列表中
-            if(menu.getParentId()!=null && menuMap.containsKey(menu.getParentId()) ){
-                if(!needButton && menu.getType().equals(ExamConstants.MENU_TYPE_BUTTON)){
+            if (menu.getParentId() != null && menuMap.containsKey(menu.getParentId())) {
+                if (!needButton && menu.getType().equals(ExamConstants.MENU_TYPE_BUTTON)) {
                     continue;
                 }
                 menuMap.get(menu.getParentId()).getChildren().add(menu);
@@ -95,7 +95,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public void deleteMenu(int[] ids) {
-        for(int id:ids){
+        for (int id : ids) {
             menuDAO.deleteMenu(id);
         }
     }

@@ -26,8 +26,8 @@
     <select id="getUserMenuList" parameterType="int" resultType="Menu">
         select id,name,parent_id parentId,url,type
         from menu m
-                 inner join role_menu rm on m.id = rm.menu_id
-                 inner join user_role ur on ur.role_id = rm.role_id
+        inner join role_menu rm on m.id = rm.menu_id
+        inner join user_role ur on ur.role_id = rm.role_id
         where user_id=#{userId}
     </select>
 </mapper>

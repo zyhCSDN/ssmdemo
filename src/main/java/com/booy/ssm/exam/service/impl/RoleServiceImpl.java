@@ -22,15 +22,16 @@ public class RoleServiceImpl implements RoleService {
     private PremissionDAO premissionDAO;
 
     @Override
-    public PageInfo<Role> getRoleList(Role role,int pageNum,int pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+    public PageInfo<Role> getRoleList(Role role, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
         PageInfo<Role> roles = new PageInfo<>(roleDAO.getRoleListByIF(role));
         return roles;
     }
-//重改方法名
+
+    //重改方法名
     @Override
     public List<Role> getRoleList() {
-       return roleDAO.getRoleList();
+        return roleDAO.getRoleList();
     }
 //增删改查
 
@@ -46,7 +47,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void deleteRole(Integer[] roleIds) {
-        for(Integer roleId:roleIds){
+        for (Integer roleId : roleIds) {
             roleDAO.deleteRole(roleId);
         }
     }
@@ -54,8 +55,8 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void addRoleMenu(Integer roleId, Integer[] MenuIds) {
         premissionDAO.deleteRoleMenuByRoleId(roleId);
-        for(int menu:MenuIds){
-            premissionDAO.addRoleMenu(roleId,menu);
+        for (int menu : MenuIds) {
+            premissionDAO.addRoleMenu(roleId, menu);
         }
     }
 

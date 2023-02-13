@@ -25,33 +25,35 @@ public class UserController {
     private RoleService roleService;
 
     @RequestMapping
-    public String user(){
+    public String user() {
         return "user";
     }
 
 
     @RequestMapping(params = "act=table")
     @ResponseBody
-    public TableData table(User user,int page,int limit){
+    public TableData table(User user, int page, int limit) {
         PageInfo<User> pageInfo = userService.getUserList(user, page, limit);
         TableData tableData = new TableData(pageInfo.getTotal(), pageInfo.getList());
         return tableData;
     }
+
     @RequestMapping(params = "act=edit")
     @ResponseBody
-    public AjaxResult addOrEdit(User user){
+    public AjaxResult addOrEdit(User user) {
         //添加
-        if(user.getId()==null){
+        if (user.getId() == null) {
             AjaxResult result = userService.addUser(user);
             return result;
-        }else{//修改
+        } else {//修改
             AjaxResult result = userService.updateUser(user);
             return result;
         }
     }
+
     @RequestMapping(params = "act=delete")
     @ResponseBody
-    public AjaxResult deleteUser(int[] ids){
+    public AjaxResult deleteUser(int[] ids) {
         try {
             AjaxResult result = userService.deleteUser(ids);
             result.setStatus(true);
@@ -67,16 +69,16 @@ public class UserController {
 
     @RequestMapping(params = "act=roleTree")
     @ResponseBody
-    public List<Role> roleTree(){
+    public List<Role> roleTree() {
         return roleService.getRoleList();
     }
 
     @RequestMapping(params = "act=assign")
     @ResponseBody
-    public AjaxResult assign(Integer userId, Integer[] roleIds){
+    public AjaxResult assign(Integer userId, Integer[] roleIds) {
         AjaxResult result = new AjaxResult();
         try {
-            userService.addUserRole(userId,roleIds);
+            userService.addUserRole(userId, roleIds);
             result.setStatus(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,7 +90,7 @@ public class UserController {
 
     @RequestMapping(params = "act=roleIds")
     @ResponseBody
-    public List<Integer> menuIds(Integer userId){
+    public List<Integer> menuIds(Integer userId) {
         List<Integer> roleIds = userService.getRoleByUserId(userId);
         return roleIds;
     }

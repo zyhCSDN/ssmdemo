@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="media/easyui.css">
 <%--顶部搜索--%>
 <div class="layui-form-item">
-    <form class="layui-form" >
+    <form class="layui-form">
         <div class="layui-inline">
             <label class="layui-form-label">角色名:</label>
             <div class="layui-input-inline" style="width: 200px;">
@@ -60,10 +60,12 @@
                 , {field: 'id', title: 'ID', width: 80}
                 , {field: 'name', title: '角色名'}
                 , {field: 'remark', title: '别名'}
-                , {field: 'status', title: '状态' ,templet: function(d){
-                        return d.status==1?'<span class="layui-badge layui-bg-green">正常</span>':'<span class="layui-badge layui-bg-gray">停用</span>'
-                    }}
-                ,{fixed: 'right', width:200, align:'center', toolbar: '#rowtool'}
+                , {
+                    field: 'status', title: '状态', templet: function (d) {
+                        return d.status == 1 ? '<span class="layui-badge layui-bg-green">正常</span>' : '<span class="layui-badge layui-bg-gray">停用</span>'
+                    }
+                }
+                , {fixed: 'right', width: 200, align: 'center', toolbar: '#rowtool'}
             ]]
         });
         //添加搜索渲染
@@ -81,18 +83,18 @@
             var data = checkStatus.data;//获取选中行数据
             switch (obj.event) {
                 case 'add':
-                    if (data.length>0) {
+                    if (data.length > 0) {
                         return;
                     }
                     openidielayer(data);//null
                     break;
                 case 'delete':
-                    if (data.length<1) {
+                    if (data.length < 1) {
                         return;
                     }
                     layer.confirm('你确定要删除吗？', {
-                        btn: ['确定','取消'] //按钮
-                    }, function(index){
+                        btn: ['确定', '取消'] //按钮
+                    }, function (index) {
                         var ids = new Array();
                         for (var i = 0; i < data.length; i++) {
                             ids.push(data[i].id)
@@ -100,7 +102,7 @@
                         $.ajax({
                             url: "/sys/role.html?act=delete",
                             method: "post",
-                            data: "roleIds="+ids,//jquery获取表单内容
+                            data: "roleIds=" + ids,//jquery获取表单内容
                             success: function (res) {
                                 if (res.status) {
                                     table.reload('roleTable', {});//删除数据后刷新table
@@ -124,18 +126,18 @@
             ;
         });
         //监听行工具条
-        table.on('tool(roleTable)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        table.on('tool(roleTable)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值
             switch (layEvent) {
                 case 'del':
                     layer.confirm('你确定要删除吗？', {
-                        btn: ['确定','取消'] //按钮
-                    }, function(index){
+                        btn: ['确定', '取消'] //按钮
+                    }, function (index) {
                         $.ajax({
                             url: "/sys/role.html?act=delete",
                             method: "post",
-                            data: "roleIds="+data.id,//获取当前行的id
+                            data: "roleIds=" + data.id,//获取当前行的id
                             success: function (res) {
                                 if (res.status) {
                                     table.reload('roleTable', {});//删除数据后刷新table
@@ -155,6 +157,7 @@
                     break;
             }
         })
+
         //打开弹出层,添加编辑共用
         function openidielayer(data) {//打开后往表单里添加数据
             layer.open({
@@ -182,8 +185,8 @@
                 }, success: function (layero, index) {
                     console.log(data);
                     form.render();//重新渲染table
-                    form.val("editForm",data);//获取array的第0个元素渲染表单
-                    form.val("editForm",{status:data.status+''});//数字转字符串才能被渲染
+                    form.val("editForm", data);//获取array的第0个元素渲染表单
+                    form.val("editForm", {status: data.status + ''});//数字转字符串才能被渲染
                 }
             });
         }
@@ -196,7 +199,7 @@
                 , content: $("#menulayer").html()
                 , btn: ['确认', '取消']
                 , yes: function (index, layero) {
-                    var nodes = $('#menu-tree').tree('getChecked', ['checked','indeterminate']);
+                    var nodes = $('#menu-tree').tree('getChecked', ['checked', 'indeterminate']);
                     var menuIds = new Array();
                     for (var i = 0; i < nodes.length; i++) {
                         menuIds.push(nodes[i].id)
@@ -206,7 +209,7 @@
                     $.ajax({
                         url: "/sys/role.html?act=assign",
                         method: "post",
-                        data: "roleId="+id+"&menuIds="+menuIds,
+                        data: "roleId=" + id + "&menuIds=" + menuIds,
                         success: function (res) {
                             if (res.status) {
                                 layer.close(index);
@@ -221,16 +224,16 @@
                 }, success: function (layero, index) {
                     $.ajax({
                         url: "sys/role.html?act=menuIds",
-                        data:"roleId="+id,
-                        success:function (res) {
+                        data: "roleId=" + id,
+                        success: function (res) {
                             $('#menu-tree').tree({//打开成功后加载树
                                 url: "sys/role.html?act=tree",//数据接口
                                 checkbox: true,
-                                onLoadSuccess:function (node, data) {//选中用户已有数据res
+                                onLoadSuccess: function (node, data) {//选中用户已有数据res
                                     var tree = $('#menu-tree');
-                                    $.each(res, function (i,obj) {
+                                    $.each(res, function (i, obj) {
                                         var node = tree.tree('find', obj);
-                                        if(node!=null&&tree.tree('isLeaf',node.target)){//只选中子节点
+                                        if (node != null && tree.tree('isLeaf', node.target)) {//只选中子节点
                                             tree.tree('check', node.target);
                                         }
                                     })

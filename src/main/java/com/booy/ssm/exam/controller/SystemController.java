@@ -23,39 +23,40 @@ public class SystemController {
 
     //默认登录页
     @RequestMapping("login.html")
-    public String login(){
+    public String login() {
         return "login";
     }
 
     @RequestMapping("error.html")
-    public String error(){
+    public String error() {
         return "error";
     }
 
     //主页菜单树
     @RequestMapping("index.html")
-    public String index(Model model,HttpSession session){
-        User user =(User) session.getAttribute(ExamConstants.SESSION_USER);
+    public String index(Model model, HttpSession session) {
+        User user = (User) session.getAttribute(ExamConstants.SESSION_USER);
         List<Menu> menuList = menuService.getUserMenuList(user.getId());
-        model.addAttribute("menuList",menuList);
-        session.setAttribute(ExamConstants.USER_MENU,menuList);//把菜单树存放在session里
+        model.addAttribute("menuList", menuList);
+        session.setAttribute(ExamConstants.USER_MENU, menuList);//把菜单树存放在session里
         return "index";
     }
 
     //用户登录
     @RequestMapping("dologin.html")
-    public String dologin(String account, String password, Model model, HttpSession session){
+    public String dologin(String account, String password, Model model, HttpSession session) {
         User user = userService.dologin(account, password);
-        if(user==null){
-            model.addAttribute("message","用户名或密码错误！");
+        if (user == null) {
+            model.addAttribute("message", "用户名或密码错误！");
             return "login";
         }
-        session.setAttribute(ExamConstants.SESSION_USER,user);
+        session.setAttribute(ExamConstants.SESSION_USER, user);
         return "redirect:index.html";
     }
+
     //用户注销
     @RequestMapping("logout.html")
-    public String logout(HttpSession session){
+    public String logout(HttpSession session) {
         session.invalidate();
         return "login";
     }

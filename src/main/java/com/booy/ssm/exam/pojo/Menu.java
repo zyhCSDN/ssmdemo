@@ -13,9 +13,9 @@ public class Menu {
     private Integer parentId;//父id
     private Integer sort;//排序
     private Integer type;
-    private List<Menu> children=new ArrayList<>();
+    private List<Menu> children = new ArrayList<>();
 
-    public String getText(){
+    public String getText() {
         return this.name;
     }
 }

@@ -7,8 +7,8 @@ import java.util.List;
 //数据封装
 @Data
 public class TableData<T> {
-    private int code=0;
-    private String msg="";
+    private int code = 0;
+    private String msg = "";
     private long count;
     private List<T> data;
 

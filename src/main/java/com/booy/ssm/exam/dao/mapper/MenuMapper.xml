@@ -11,11 +11,19 @@
     </insert>
     <update id="updateMenu" parameterType="Menu">
         update menu set
-            <if test="name!=null and name!=''">name=#{name},</if>
-            <if test="parentId!=null and parentId!=''">parent_id=#{parentId},</if>
-            <if test="url!=null and url!=''">url=#{url},</if>
-            <if test="type!=null">type=#{type}</if>
-             where id=#{id}
+        <if test="name!=null and name!=''">
+            name=#{name},
+        </if>
+        <if test="parentId!=null and parentId!=''">
+            parent_id=#{parentId},
+        </if>
+        <if test="url!=null and url!=''">
+            url=#{url},
+        </if>
+        <if test="type!=null">
+            type=#{type}
+        </if>
+        where id=#{id}
     </update>
     <delete id="deleteMenu" parameterType="int">
         delete from menu where id=#{id}

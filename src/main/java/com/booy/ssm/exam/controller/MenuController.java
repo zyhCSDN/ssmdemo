@@ -15,26 +15,27 @@ import java.util.List;
 public class MenuController {
     @Autowired
     MenuService menuService;
+
     @RequestMapping
-    public String user(){
+    public String user() {
         return "menu";
     }
 
     @RequestMapping(params = "act=tree")
     @ResponseBody
-    public List<Menu> MenuTree(Boolean needButton){
+    public List<Menu> MenuTree(Boolean needButton) {
         return menuService.getMenuTree(true);
     }
 
     @RequestMapping(params = "act=edit")
     @ResponseBody
-    public AjaxResult edit(Menu menu){
+    public AjaxResult edit(Menu menu) {
         AjaxResult result = new AjaxResult();
         //添加功能
         try {
-            if(menu.getId()==null){
+            if (menu.getId() == null) {
                 menuService.addMenu(menu);
-            }else{
+            } else {
                 menuService.updateMenu(menu);
             }
             result.setStatus(true);
@@ -45,9 +46,10 @@ public class MenuController {
         }
         return result;
     }
+
     @RequestMapping(params = "act=delete")
     @ResponseBody
-    public AjaxResult deleteMenu(int[] ids){
+    public AjaxResult deleteMenu(int[] ids) {
         AjaxResult result = new AjaxResult();
         try {
             menuService.deleteMenu(ids);

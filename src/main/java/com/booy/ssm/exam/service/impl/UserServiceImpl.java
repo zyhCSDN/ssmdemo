@@ -22,21 +22,19 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PremissionDAO premissionDAO;
-
     @Override
     public User dologin(String account, String password) {
         User user = userDAO.getUserByAccount(account);
         String loginMD5 = MD5Utils.getLoginMD5(user.getSalt(), password);
-        if(user==null || !user.getPassword().equals(loginMD5) || user.getStatus().equals(ExamConstants.USER_STATUS_DELETE)){
+        if (user == null || !user.getPassword().equals(loginMD5) || user.getStatus().equals(ExamConstants.USER_STATUS_DELETE)) {
             return null;//账号或密码错误
         }
         return user;
     }
-
     @Override
     public AjaxResult addUser(User user) {
         AjaxResult result = new AjaxResult();
-        if(userDAO.getUserByAccount(user.getAccount())==null ){
+        if (userDAO.getUserByAccount(user.getAccount()) == null) {
             //设置用户动态盐
             user.setSalt(DigestUtils.md5DigestAsHex(user.getAccount().getBytes()));
             //加密密码
@@ -67,7 +65,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PageInfo<User> getUserList(User user, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum, pageSize);
         PageInfo<User> users = new PageInfo<>(userDAO.getUserList(user));
         return users;
     }
@@ -75,7 +73,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public AjaxResult deleteUser(int[] ids) {
         AjaxResult result = new AjaxResult();
-        for(int id:ids){
+        for (int id : ids) {
             userDAO.deleteUser(id);
         }
         result.setStatus(true);
@@ -87,10 +85,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addUserRole(Integer userId, Integer[] roleIds) {
         premissionDAO.deleteUserRoleByUserId(userId);
-        for(Integer roleId:roleIds){
-            premissionDAO.addUserRole(userId,roleId);
+        for (Integer roleId : roleIds) {
+            premissionDAO.addUserRole(userId, roleId);
         }
     }
+
     @Override
     public List<Integer> getRoleByUserId(Integer userId) {
         return premissionDAO.getRoleByUserId(userId);

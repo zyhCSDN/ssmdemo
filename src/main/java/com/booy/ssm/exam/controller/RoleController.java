@@ -22,31 +22,32 @@ public class RoleController {
 
     @Autowired
     private MenuService menuService;
+
     @RequestMapping
-    public String user(){
+    public String user() {
         return "role";
     }
 
     @RequestMapping(params = "act=table")
     @ResponseBody
-    public TableData<Role> role(Role role, int page,int limit){
-        PageInfo<Role> roleList = roleService.getRoleList(role,page, limit);
+    public TableData<Role> role(Role role, int page, int limit) {
+        PageInfo<Role> roleList = roleService.getRoleList(role, page, limit);
         TableData<Role> tableData = new TableData<>(roleList.getTotal(), roleList.getList());
         return tableData;
     }
 
     @RequestMapping(params = "act=tree")
     @ResponseBody
-    public List<Menu> MenuTree(){
+    public List<Menu> MenuTree() {
         return menuService.getMenuTree(true);
     }
 
     @RequestMapping(params = "act=assign")
     @ResponseBody
-    public AjaxResult assign(Integer roleId, Integer[] menuIds){
+    public AjaxResult assign(Integer roleId, Integer[] menuIds) {
         AjaxResult result = new AjaxResult();
         try {
-            roleService.addRoleMenu(roleId,menuIds);
+            roleService.addRoleMenu(roleId, menuIds);
             result.setStatus(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,21 +56,23 @@ public class RoleController {
         }
         return result;
     }
+
     @RequestMapping(params = "act=menuIds")
     @ResponseBody
-    public List<Integer> menuIds(Integer roleId){
+    public List<Integer> menuIds(Integer roleId) {
         List<Integer> menuIds = roleService.getMenuByRoleId(roleId);
         return menuIds;
     }
+
     @RequestMapping(params = "act=edit")
     @ResponseBody
-    public AjaxResult edit(Role role){
+    public AjaxResult edit(Role role) {
         AjaxResult result = new AjaxResult();
         try {
-            if(role.getId()==null){
+            if (role.getId() == null) {
                 roleService.addRole(role);
                 result.setStatus(true);
-            }else{
+            } else {
                 roleService.updateRole(role);
                 result.setStatus(true);
             }
@@ -84,7 +87,7 @@ public class RoleController {
 
     @RequestMapping(params = "act=delete")
     @ResponseBody
-    public AjaxResult deleteRole(Integer[] roleIds){
+    public AjaxResult deleteRole(Integer[] roleIds) {
         AjaxResult result = new AjaxResult();
         try {
             roleService.deleteRole(roleIds);

@@ -10,8 +10,12 @@
     <select id="getRoleListByIF" parameterType="Role" resultType="Role">
         select id,name,remark,status from role
         <where>
-            <if test="name!=null and name!=''">and name like concat('%',#{name},'%')</if>
-            <if test="remark!=null and remark!=''">and remark like concat('%',#{remark},'%')</if>
+            <if test="name!=null and name!=''">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="remark!=null and remark!=''">
+                and remark like concat('%',#{remark},'%')
+            </if>
         </where>
     </select>
     <insert id="addRole" parameterType="Role">
@@ -20,9 +24,15 @@
     </insert>
     <update id="updateRole" parameterType="Role">
         update role set
-        <if test="name!=null and name!=''">name=#{name},</if>
-        <if test="remark!=null and remark!=''">remark=#{remark},</if>
-        <if test="status!=null">status=#{status}</if>
+        <if test="name!=null and name!=''">
+            name=#{name},
+        </if>
+        <if test="remark!=null and remark!=''">
+            remark=#{remark},
+        </if>
+        <if test="status!=null">
+            status=#{status}
+        </if>
         where id=#{id}
     </update>
     <delete id="deleteRole" parameterType="int">

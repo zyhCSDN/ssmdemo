@@ -23,17 +23,17 @@
         })
         $('#delMenu').click(function () {
             layer.confirm('你确定要删除吗？', {
-                btn: ['确定','取消'] //按钮
-            }, function(index){
+                btn: ['确定', '取消'] //按钮
+            }, function (index) {
                 var nodes = $('#menu-tree').tree('getChecked');
-                var ids=new Array();
-                for (var i = 0; i <nodes.length ; i++) {
+                var ids = new Array();
+                for (var i = 0; i < nodes.length; i++) {
                     ids.push(nodes[i].id);
                 }
                 $.ajax({
                     url: "/sys/menu.html?act=delete",
                     method: "post",
-                    data: "ids="+ids,
+                    data: "ids=" + ids,
                     success: function (res) {
                         if (res.status) {
                             $('#menu-tree').tree('reload');
